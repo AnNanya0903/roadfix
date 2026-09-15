@@ -8,8 +8,10 @@ import ReportFormPage from '@/pages/ReportFormPage';
 import ReportDetailPage from '@/pages/ReportDetailPage';
 
 function App() {
+  const routerBasename = import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL.replace(/\/$/, '');
+
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={routerBasename}>
       <div className="min-h-screen flex flex-col bg-white">
         <Navbar />
         <main className="flex-1">
