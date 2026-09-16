@@ -24,7 +24,7 @@ import MapPicker from '@/components/MapPicker';
 import { supabase, STORAGE_BUCKET } from '@/lib/supabase';
 import { getSessionId } from '@/lib/session';
 import { generateAIDraft } from '@/lib/ai';
-import type { ReportCategory, ReportSeverity, AIDraftResponse } from '@/lib/types';
+import type { Report, ReportCategory, ReportSeverity, AIDraftResponse } from '@/lib/types';
 import { CATEGORY_LABELS } from '@/lib/types';
 import { getCategoryIcon } from '@/lib/icons';
 import {
@@ -180,7 +180,7 @@ export default function ReportFormPage() {
         .neq('session_id', getSessionId())
         .limit(100);
       if (error) throw error;
-      setDuplicateReports(findDuplicateReports(data || [], {
+      setDuplicateReports(findDuplicateReports((data || []) as Report[], {
         category,
         description: description.trim(),
         latitude: lat,

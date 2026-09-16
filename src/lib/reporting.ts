@@ -122,15 +122,16 @@ export async function reverseGeocode(latitude: number, longitude: number): Promi
 
 function fallbackPhotoAnalysis(fileName: string): PhotoAnalysisResult {
   const normalized = normalizeText(fileName);
-  let category: ReportCategory = 'other';
+  let matchedCategory: ReportCategory | undefined;
   let bestMatches = 0;
   (Object.keys(CATEGORY_KEYWORDS) as ReportCategory[]).forEach((key) => {
     const matches = CATEGORY_KEYWORDS[key].filter((keyword) => normalized.includes(keyword)).length;
     if (matches > bestMatches) {
       bestMatches = matches;
-      category = key;
+      matchedCategory = key;
     }
   });
+  const category = matchedCategory ?? 'other';
   const severity: ReportSeverity = (category === 'waterlogging' || category === 'broken_road') ? 'medium' : 'low';
   return {
     category,
@@ -265,7 +266,8 @@ export function startVoiceDictation(
   recognition.onresult = (event: SpeechRecognitionEvent) => {
     let interim = '';
     for (let index = event.resultIndex; index < event.results.length; index += 1) {
-      const transcript = event.results[index][0].transcript;
+      const transcript = event.results[index]?.[0]?.transcript;
+      if (!transcript) continue;
       if (event.results[index].isFinal) finalText += `${transcript} `;
       else interim += transcript;
     }
