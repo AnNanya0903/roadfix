@@ -4,10 +4,7 @@
 
 The platform allows citizens to report problems such as **potholes, damaged roads, poor road conditions, and other infrastructure issues**, while providing a centralized interface to monitor and manage reported problems.
 
-## 🌐 Live Demo
 
-**Live Application:**
-https://annanya0903.github.io/roadfix/
 
 ## 📌 Problem Statement
 
